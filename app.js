@@ -336,7 +336,7 @@
                 // Class-based approach can never scrub smoothly; we need per-frame style writes.
                 if (portBgs[0]) {
                     portBgs[0].classList.remove('blur-entry');
-                    portBgs[0].style.filter = 'blur(20px) brightness(.58)';
+                    portBgs[0].style.filter = 'blur(20px) brightness(.45)';
                 }
 
                 // Lerp helper: smoothly interpolate blur value each frame
@@ -356,7 +356,7 @@
                         blurRaf = requestAnimationFrame(lerpBlur);
                     }
                     if (portBgs[0]) {
-                        portBgs[0].style.filter = `blur(${currentBlur.toFixed(2)}px) brightness(.58)`;
+                        portBgs[0].style.filter = `blur(${currentBlur.toFixed(2)}px) brightness(.45)`;
                     }
                 };
 
