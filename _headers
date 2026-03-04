@@ -4,7 +4,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self' https://usebasin.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://usebasin.com;
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://static.cloudflareinsights.com 'unsafe-inline' blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self' https://usebasin.com https://cdn.jsdelivr.net; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://usebasin.com; worker-src blob:;
   X-Powered-By: none
 
 /fonts/*
