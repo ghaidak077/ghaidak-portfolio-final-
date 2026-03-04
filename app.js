@@ -112,9 +112,6 @@
         if (formDirty && !force) {
             if (!window.confirm('You have unsaved details. Are you sure you want to close this?')) return;
         }
-        if (document.activeElement && briefModal?.contains(document.activeElement)) {
-            document.activeElement.blur();
-        }
         briefModal?.classList.remove('active');
         briefModal?.setAttribute('aria-hidden', 'true');
         lenisRef?.start();
@@ -139,9 +136,79 @@
     });
 
     // ─── Form submission ──────────────────────────────────────
+    // ── Inline field validation helpers ─────────────────────
+    function isValidEmail(val) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val.trim());
+    }
+    function isValidPhone(val) {
+        return /^[\+\d][\d\s\-\(\)]{6,}$/.test(val.trim());
+    }
+    function setFieldError(input, msg) {
+        input.classList.add('input-error');
+        let err = input.parentNode.querySelector('.field-error');
+        if (!err) {
+            err = document.createElement('span');
+            err.className = 'field-error';
+            input.parentNode.appendChild(err);
+        }
+        err.textContent = msg;
+    }
+    function clearFieldError(input) {
+        input.classList.remove('input-error');
+        const err = input.parentNode.querySelector('.field-error');
+        if (err) err.remove();
+    }
+
+    // Clear errors on input
+    $$('.brief-input, .brief-select').forEach(el => {
+        el.addEventListener('input', () => clearFieldError(el));
+        el.addEventListener('change', () => clearFieldError(el));
+    });
+
+    function validateBriefForm(form) {
+        let valid = true;
+        const name    = form.querySelector('#brief-name');
+        const contact = form.querySelector('#brief-contact');
+        const service = form.querySelector('#brief-service');
+        const budget  = form.querySelector('#brief-budget');
+
+        if (!name.value.trim()) {
+            setFieldError(name, 'Please enter your name.'); valid = false;
+        } else clearFieldError(name);
+
+        const cVal = contact.value.trim();
+        if (!cVal) {
+            setFieldError(contact, 'Email or phone number is required.'); valid = false;
+        } else if (!isValidEmail(cVal) && !isValidPhone(cVal)) {
+            setFieldError(contact, 'Enter a valid email (you@domain.com) or phone (+1 234 567 890).'); valid = false;
+        } else clearFieldError(contact);
+
+        if (!service.value) {
+            setFieldError(service, 'Please select a service.'); valid = false;
+        } else clearFieldError(service);
+
+        if (!budget.value) {
+            setFieldError(budget, 'Please select a budget range.'); valid = false;
+        } else clearFieldError(budget);
+
+        return valid;
+    }
+
     briefForm?.addEventListener('submit', async function (e) {
         e.preventDefault();
         if (isSubmitting) return;
+
+        if (!validateBriefForm(this)) {
+            // Shake the first errored field
+            const firstErr = this.querySelector('.input-error');
+            if (firstErr) {
+                firstErr.focus();
+                firstErr.classList.add('shake-err');
+                setTimeout(() => firstErr.classList.remove('shake-err'), 500);
+            }
+            return;
+        }
+
         isSubmitting = true;
 
         const btn          = this.querySelector('button[type="submit"]');
@@ -228,29 +295,27 @@
         if (portItems.length > 0) {
             // ── Progress navigation (desktop only) ────────────
             let progressNav = null;
-            if (!isMobile) {
-                progressNav = document.createElement('nav');
-                progressNav.className = 'port-progress-nav';
-                progressNav.id = 'portProgressNav';
-                progressNav.setAttribute('aria-label', 'Portfolio navigation');
-                portItems.forEach((item, i) => {
-                    const btn = document.createElement('button');
-                    btn.className = 'port-pdot' + (i === 0 ? ' is-active' : '');
-                    btn.setAttribute('aria-label', `View project ${i + 1}`);
-                    btn.addEventListener('click', () => {
-                        if (lenisRef) lenisRef.scrollTo(item, { offset: 0, duration: 1.2 });
-                        else item.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    });
-                    progressNav.appendChild(btn);
+            progressNav = document.createElement('nav');
+            progressNav.className = 'port-progress-nav';
+            progressNav.id = 'portProgressNav';
+            progressNav.setAttribute('aria-label', 'Portfolio navigation');
+            portItems.forEach((item, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'port-pdot' + (i === 0 ? ' is-active' : '');
+                btn.setAttribute('aria-label', `View project ${i + 1}`);
+                btn.addEventListener('click', () => {
+                    if (lenisRef) lenisRef.scrollTo(item, { offset: 0, duration: 1.2 });
+                    else item.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 });
-                const portShowcase = document.querySelector('.portfolio-showcase');
-                portShowcase?.appendChild(progressNav);
-                // Show/hide when portfolio section is in view
-                const pNavIO = new IntersectionObserver(([entry]) => {
-                    progressNav.classList.toggle('visible', entry.isIntersecting);
-                }, { threshold: 0.05 });
-                if (portShowcase) pNavIO.observe(portShowcase);
-            }
+                progressNav.appendChild(btn);
+            });
+            const portShowcase = document.querySelector('.portfolio-showcase');
+            portShowcase?.appendChild(progressNav);
+            // Show/hide when portfolio section is in view
+            const pNavIO = new IntersectionObserver(([entry]) => {
+                progressNav.classList.toggle('visible', entry.isIntersecting);
+            }, { threshold: 0.05 });
+            if (portShowcase) pNavIO.observe(portShowcase);
 
             const activateIndex = (idx) => {
                 portItems.forEach((item, i) => item.classList.toggle('is-active', i === idx));
