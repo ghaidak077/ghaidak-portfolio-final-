@@ -315,6 +315,11 @@ main { position:relative; z-index:10; width:100%; }
 .spec-val   { font-family:var(--font-b); font-size:.78rem; color:var(--ink); font-weight:700; line-height:1.4; word-break:break-word; }
 .spec-val.gold { color:var(--accent); }
 .hero-desc  { font-family:var(--font-r); font-size:clamp(1rem, 1.5vw, 1.1rem); line-height:1.8; color:var(--subtle); max-width:46ch; font-weight:400; }
+.hero-kicker {
+    font-family:var(--font-b); font-size:clamp(.6rem, .9vw, .75rem);
+    text-transform:uppercase; letter-spacing:.2em; color:var(--muted);
+    margin-bottom:.75rem; font-weight:700;
+}
 .cta-group  { display:flex; gap:.875rem; flex-wrap:wrap; align-items:center; }
 .scroll-hint {
     position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%);
@@ -376,7 +381,7 @@ main { position:relative; z-index:10; width:100%; }
     opacity:1; pointer-events:auto;
 }
 .scroll-top-btn {
-    bottom:2rem; right:2rem;
+    bottom:5.5rem; right:2rem;
     opacity:0; pointer-events:none;
 }
 .scroll-top-btn.visible { opacity:1; pointer-events:auto; }
