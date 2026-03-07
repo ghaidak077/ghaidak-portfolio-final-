@@ -9,7 +9,7 @@
 # ─────────────────────────────────────────────────────────────
 
 # Redirect www → apex (301 permanent, ! forces even if file exists)
-https://www.ghaidak.com/* https://ghaidak.com/:splat 301!
+https://www.ghaidak.com/* https://ghaidak.com/:splat 301
 
 # HTTP → HTTPS (Cloudflare handles this via Always Use HTTPS,
 # but belt-and-suspenders for proxy edge cases)
