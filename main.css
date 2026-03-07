@@ -369,9 +369,9 @@ main { position:relative; z-index:10; width:100%; }
     gap:2.5rem; align-items:end;
 }
 .mega-type {
-    font-family:var(--font-h); font-size:clamp(2.2rem, 3.8vw, 5rem);
-    line-height:.97; text-transform:uppercase; font-weight:800;
-    letter-spacing:-.03em; color:var(--ink);
+    font-family:var(--font-h); font-size:clamp(2.4rem, 4.2vw, 5.5rem);
+    line-height:.95; text-transform:uppercase; font-weight:800;
+    letter-spacing:-.04em; color:var(--ink);
     overflow-wrap:normal; word-break:keep-all; hyphens:none;
 }
 .accent-text { color:var(--accent); position:relative; display:inline-block; }
@@ -384,7 +384,7 @@ main { position:relative; z-index:10; width:100%; }
 .spec-label { font-family:var(--font-b); font-size:.56rem; color:var(--muted); text-transform:uppercase; letter-spacing:.16em; font-weight:700; }
 .spec-val   { font-family:var(--font-b); font-size:.82rem; color:var(--ink); font-weight:700; line-height:1.4; word-break:break-word; }
 .spec-val.gold { color:var(--accent); }
-.hero-desc  { font-family:var(--font-r); font-size:clamp(1rem, 1.5vw, 1.1rem); line-height:1.8; color:var(--subtle); max-width:46ch; font-weight:400; }
+.hero-desc  { font-family:var(--font-r); font-size:clamp(1rem, 1.5vw, 1.12rem); line-height:1.82; color:var(--subtle); max-width:48ch; font-weight:400; }
 .hero-kicker {
     font-family:var(--font-b); font-size:clamp(.6rem, .9vw, .75rem);
     text-transform:uppercase; letter-spacing:.2em; color:var(--muted);
@@ -501,17 +501,17 @@ html:not(.no-js) .hero-section .reveal-up.gsap-animated { animation:none; }
 .section-wrapper { padding:var(--section) var(--pad-x); max-width:1400px; margin:0 auto; }
 .section-header {
     display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:1rem;
-    padding-bottom:2.5rem; border-bottom:1px solid var(--glass-border); margin-bottom:5rem;
+    padding-bottom:2rem; border-bottom:1px solid var(--glass-border); margin-bottom:3.5rem;
 }
 .section-header h2 { display:contents; }
 .section-header h2 > span:first-child {
-    font-family:var(--font-h); font-weight:800; font-size:clamp(2.2rem, 4.5vw, 4rem);
-    line-height:.92; letter-spacing:-.03em; color:var(--ink); text-transform:uppercase; white-space:nowrap;
+    font-family:var(--font-h); font-weight:800; font-size:clamp(2.4rem, 4.8vw, 4.5rem);
+    line-height:.92; letter-spacing:-.035em; color:var(--ink); text-transform:uppercase; white-space:nowrap;
 }
 .section-header h2 > span:last-child {
-    font-family:var(--font-b); font-size:.6rem; font-weight:700; color:var(--muted);
-    letter-spacing:.22em; text-transform:uppercase; white-space:nowrap; padding-bottom:.35rem;
-    opacity:0.5; /* de-emphasized — not the most important info */
+    font-family:var(--font-b); font-size:.58rem; font-weight:700; color:var(--muted);
+    letter-spacing:.18em; text-transform:uppercase; white-space:nowrap; padding-bottom:.35rem;
+    opacity:0.65;
 }
 .delay-1 { animation-delay:.12s; }
 .delay-2 { animation-delay:.24s; }
@@ -707,7 +707,7 @@ html:not(.no-js) .hero-section .reveal-up.gsap-animated { animation:none; }
     grid-column: span 1;
     position: relative; overflow: hidden;
     padding: 2.25rem 2rem;
-    background: linear-gradient(150deg, rgba(255,255,255,0.055) 0%, rgba(8,8,10,0.97) 55%, rgba(255,198,62,0.025) 100%);
+    background: linear-gradient(150deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 55%, rgba(255,198,62,0.03) 100%);
     border: 1px solid rgba(255,255,255,0.09);
     border-radius: 16px;
     display: flex; flex-direction: column;
@@ -806,13 +806,13 @@ html:not(.no-js) .hero-section .reveal-up.gsap-animated { animation:none; }
 }
 
 .cap-card h4 {
-    font-family:var(--font-h); font-size:clamp(.95rem,1.3vw,1.1rem);
+    font-family:var(--font-h); font-size:clamp(1rem,1.4vw,1.15rem);
     font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
-    color:var(--ink); line-height:1.1; margin-bottom:.85rem;
+    color:var(--ink); line-height:1.1; margin-bottom:.75rem;
 }
 .cap-card p {
-    font-family:var(--font-r); font-size:clamp(.84rem,1.05vw,.92rem);
-    line-height:1.78; color:var(--subtle); flex:1;
+    font-family:var(--font-r); font-size:clamp(.86rem,1.1vw,.95rem);
+    line-height:1.8; color:var(--subtle); flex:1;
 }
 .cap-deliverable {
     font-family:var(--font-b); font-size:.56rem; font-weight:700;
@@ -852,7 +852,7 @@ html:not(.no-js) .hero-section .reveal-up.gsap-animated { animation:none; }
 }
 .img-inner      { width:100%; height:100%; }
 .img-inner img-legacy-placeholder { display:none; }
-.bio-title { font-family:var(--font-h); font-size:1.3rem; margin-bottom:1rem; font-weight:800; text-transform:uppercase; letter-spacing:-.02em; }
+.bio-title { font-family:var(--font-h); font-size:clamp(1.1rem,1.6vw,1.35rem); margin-bottom:.85rem; font-weight:800; text-transform:uppercase; letter-spacing:-.02em; color:var(--ink); }
 .bio-text  { font-family:var(--font-r); font-size:clamp(.95rem,1.3vw,1.05rem); line-height:1.85; color:var(--subtle); margin-bottom:1rem; max-width:48ch; }
 
 
@@ -1027,7 +1027,7 @@ html:not(.no-js) .hero-section .reveal-up.gsap-animated { animation:none; }
     .logos-content { gap:3rem; }
 
     .section-header { flex-direction:column; align-items:flex-start; gap:0.35rem; padding-bottom:1.4rem; margin-bottom:2.25rem; }
-    .section-header h2 > span:first-child { font-size:clamp(1.6rem,6vw,2.1rem); white-space:normal; word-break:keep-all; overflow-wrap:normal; hyphens:none; }
+    .section-header h2 > span:first-child { font-size:clamp(1.8rem,6.5vw,2.4rem); white-space:normal; word-break:keep-all; overflow-wrap:normal; hyphens:none; }
     .section-header h2 > span:last-child  { font-size:0.52rem; }
     .section-wrapper { padding-left:var(--pad-x); padding-right:var(--pad-x); padding-top:3rem; padding-bottom:3rem; }
 
@@ -1083,7 +1083,7 @@ html:not(.no-js) .hero-section .reveal-up.gsap-animated { animation:none; }
     
     .capabilities-grid { grid-template-columns:1fr 1fr; border-radius:12px; gap:1px; }
     .cap-card { padding:1.5rem 1.25rem; }
-    .cap-card h4 { font-size:0.84rem; margin-bottom:0.45rem; }
+    .cap-card h4 { font-size:0.9rem; margin-bottom:0.55rem; }
     .cap-card p  { font-size:0.78rem; line-height:1.68; }
     .cap-deliverable { font-size:.52rem; margin-top:.85rem; padding-top:.85rem; }
     .cap-card:hover { background:linear-gradient(150deg, rgba(255,255,255,0.04) 0%, rgba(8,8,10,0.96) 100%); }
