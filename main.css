@@ -457,14 +457,13 @@ main { position:relative; z-index:10; width:100%; }
     display:inline-block;
     animation:mwIn .95s var(--ease-cinema) both;
     animation-delay:calc(0.08s + var(--i, 0) * 0.085s);
-    will-change:transform, opacity, filter;
+    will-change:transform, opacity;
 }
 @keyframes mwIn {
-    from { opacity:0; transform:translateY(32px); filter:blur(14px); }
-    60%  { filter:blur(2px); }
-    to   { opacity:1; transform:none; filter:blur(0); }
+    from { opacity:0; transform:translateY(32px); }
+    to   { opacity:1; transform:none; }
 }
-.mw.mw-done { will-change:auto; filter:none; animation:none; }
+.mw.mw-done { will-change:auto; animation:none; }
 
 /* ════════════════════════════════════════════════════════════
    SCROLL NAV + SCROLL TOP BUTTONS
@@ -519,16 +518,15 @@ main { position:relative; z-index:10; width:100%; }
 ════════════════════════════════════════════════════════════ */
 html:not(.no-js) .reveal-up.reveal-ready {
     opacity:0; transform:translateY(36px);
-    filter:blur(4px); will-change:transform, opacity, filter;
+    filter:none; will-change:transform, opacity;
 }
 /* Once reveal-ready is removed, reset will-change to not waste GPU layers */
 html:not(.no-js) .reveal-up:not(.reveal-ready) {
     will-change: auto;
 }
 @keyframes heroRevealUp {
-    from { opacity:0; transform:translateY(40px); filter:blur(6px); }
-    65%  { filter:blur(0.5px); }
-    to   { opacity:1; transform:none; filter:blur(0); }
+    from { opacity:0; transform:translateY(40px); }
+    to   { opacity:1; transform:none; }
 }
 html:not(.no-js) .hero-section .hero-top {
     opacity:0; transform:translateY(40px);
@@ -543,9 +541,9 @@ html:not(.no-js) .hero-section .reveal-up.gsap-animated { animation:none; }
 
 @media(prefers-reduced-motion:reduce) {
     .reveal-up, html:not(.no-js) .reveal-up.reveal-ready, html:not(.no-js) .hero-section .hero-top {
-        opacity:1 !important; transform:none !important; animation:none !important; filter:none !important;
+        opacity:1 !important; transform:none !important; animation:none !important;
     }
-    .mw { animation:none !important; opacity:1 !important; transform:none !important; filter:none !important; }
+    .mw { animation:none !important; opacity:1 !important; transform:none !important; }
     .logos-content { animation-play-state:paused; }
 }
 

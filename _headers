@@ -21,7 +21,7 @@
   #   - document.documentElement.classList.remove('no-js') inline script
   #   - JSON-LD schema (type=application/ld+json)
   # To harden further: replace inline scripts with nonces.
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://usebasin.com https://www.google-analytics.com https://region1.google-analytics.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://usebasin.com; upgrade-insecure-requests;
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://static.cloudflareinsights.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://usebasin.com https://www.google-analytics.com https://region1.google-analytics.com https://cloudflareinsights.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://usebasin.com; upgrade-insecure-requests;
 
   # Permissions Policy (2026 — removed deprecated interest-cohort/FLoC)
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), autoplay=(), picture-in-picture=(), screen-wake-lock=(), web-share=()

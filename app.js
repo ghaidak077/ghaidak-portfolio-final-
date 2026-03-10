@@ -75,12 +75,14 @@
         if (!certModal) return;
         certModal.classList.add('active');
         certModal.removeAttribute('aria-hidden');
+        certModal.removeAttribute('inert');
         lenisRef?.stop();
         document.body.style.overflow = 'hidden';
     };
     const closeCertModal = () => {
         certModal?.classList.remove('active');
         certModal?.setAttribute('aria-hidden', 'true');
+        certModal?.setAttribute('inert', '');
         lenisRef?.start();
         document.body.style.overflow = '';
     };
