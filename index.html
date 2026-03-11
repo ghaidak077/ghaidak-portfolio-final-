@@ -49,7 +49,7 @@
     <link rel="preload" as="font" type="font/woff2" href="fonts/Syne-ExtraBold.woff2" crossorigin>
     <link rel="preload" as="font" type="font/woff2" href="fonts/Syne-Bold.woff2"      crossorigin>
     <link rel="preload" as="script" href="effects.js?v=7">
-    <link rel="stylesheet" href="main.css?v=7">
+    <link rel="stylesheet" href="main.css?v=8">
     <script>document.documentElement.classList.remove('no-js');</script>
 
     <!-- Google Analytics 4 -->
@@ -735,11 +735,4 @@
         document.querySelectorAll('.port-item').forEach(function (el) {
             el.addEventListener('click', function () {
                 var title = el.querySelector('.port-title');
-                track('portfolio_item_click', { event_category: 'engagement', event_label: title ? title.textContent.trim() : '' });
-            });
-        });
-
-        // LinkedIn / Behance
-        document.querySelectorAll('a[href*="linkedin.com"], a[href*="behance.net"]').forEach(function (el) {
-            el.addEventListener('click', function () {
-                track('social_link_click', { event_category: 'engagement', event_label: el.href });
+                track('portfolio_item_click', { event_category: 'engagement', eve

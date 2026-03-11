@@ -1781,14 +1781,14 @@ html:not(.no-js) .hero-section .reveal-up.gsap-animated { animation:none; }
 .logos-content {
     display:flex; align-items:center; gap:5rem;
     animation:pureMarquee 28s linear infinite; flex-shrink:0;
-    will-change:transform;
+    will-change:transform; transform:translateZ(0); backface-visibility:hidden;
 }
 .logos-content img {
     height:34px; width:auto;
-    filter:grayscale(100%) opacity(0.5) brightness(2);
-    transition:filter .5s, transform .4s; object-fit:contain; flex-shrink:0;
+    opacity:0.45; filter:grayscale(1);
+    transition:opacity .5s, filter .5s, transform .4s; object-fit:contain; flex-shrink:0;
 }
-.logos-content img:hover { filter:grayscale(0%) opacity(1) brightness(1); transform:scale(1.08); }
+.logos-content img:hover { opacity:1; filter:grayscale(0); transform:scale(1.08); }
 @keyframes pureMarquee { to { transform:translateX(-50%); } }
 .blur-edge { position:absolute; top:0; bottom:0; width:clamp(60px,15vw,220px); z-index:6; pointer-events:none; }
 .blur-edge--left  { left:0; background:linear-gradient(to right, #040404 0%, rgba(4,4,4,0.97) 15%, rgba(4,4,4,0.88) 30%, rgba(4,4,4,0.70) 48%, rgba(4,4,4,0.40) 65%, rgba(4,4,4,0.15) 80%, transparent 100%); }
