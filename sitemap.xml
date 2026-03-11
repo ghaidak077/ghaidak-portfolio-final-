@@ -7,9 +7,8 @@
   <lastmod>2026-03-01</lastmod>
   <changefreq>monthly</changefreq>
   <priority>1.0</priority>
-  <!-- hreflang annotations for multilingual SEO (en + ar served same URL) -->
+  <!-- hreflang annotations — English only, x-default for global -->
   <xhtml:link rel="alternate" hreflang="en"        href="https://ghaidak.com/"/>
-  <xhtml:link rel="alternate" hreflang="ar"        href="https://ghaidak.com/"/>
   <xhtml:link rel="alternate" hreflang="x-default" href="https://ghaidak.com/"/>
 </url>
 

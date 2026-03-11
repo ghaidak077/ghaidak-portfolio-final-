@@ -102,12 +102,11 @@
         const BASIN_URL = 'https://usebasin.com/f/16d3bed22a44';
         let isSubmitting = false;
 
-        const setQFState = (btn, html, bg, color, pEvents) => {
-            btn.innerHTML           = html;
-            btn.style.background    = bg;
-            btn.style.color         = color;
-            btn.style.pointerEvents = pEvents;
-            btn.style.opacity       = pEvents === 'none' ? '0.7' : '1';
+        const setQFState = (btn, html, state) => {
+            // state: '' | 'sending' | 'success' | 'error' | 'offline'
+            btn.innerHTML = html;
+            btn.dataset.qfState = state;
+            btn.disabled = (state === 'sending' || state === 'success');
         };
 
         quickForm.addEventListener('submit', async function (e) {
@@ -131,9 +130,7 @@
                 if (first) {
                     first.focus();
                     first.style.animation = 'none';
-                    requestAnimationFrame(() => {
-                        first.style.animation = '';
-                    });
+                    requestAnimationFrame(() => { first.style.animation = ''; });
                 }
                 return;
             }
@@ -142,11 +139,14 @@
             const btn = this.querySelector('.qf-submit');
             const originalHTML = btn.innerHTML;
 
-            setQFState(btn,
-                '<span>Sending…</span>',
-                'linear-gradient(160deg,#FFD966,#FFC63E)',
-                '#000', 'none'
-            );
+            const resetBtn = (delay) => setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                delete btn.dataset.qfState;
+                btn.disabled = false;
+                isSubmitting = false;
+            }, delay);
+
+            setQFState(btn, '<span>Sending…</span>', 'sending');
 
             const raw = new FormData(this);
             const payload = { source_url: window.location.href, timestamp: new Date().toISOString() };
@@ -170,45 +170,16 @@
                 });
 
                 if (response.ok) {
-                    setQFState(btn,
-                        '<span>✓ Brief received — I\'ll be in touch within 24h</span>',
-                        'linear-gradient(135deg,#22c55e,#16a34a)',
-                        '#fff', 'none'
-                    );
+                    setQFState(btn, '<span>✓ Brief received — I\'ll be in touch within 24h</span>', 'success');
                     this.reset();
-                    // Re-enable after delay so re-submit is possible
-                    setTimeout(() => {
-                        btn.innerHTML = originalHTML;
-                        btn.style.removeProperty('background');
-                        btn.style.removeProperty('color');
-                        btn.style.removeProperty('pointer-events');
-                        btn.style.removeProperty('opacity');
-                        isSubmitting = false;
-                    }, 5000);
+                    resetBtn(5000);
                 } else {
-                    setQFState(btn,
-                        '<span>Failed — please try again</span>',
-                        'linear-gradient(135deg,#dc2626,#b91c1c)',
-                        '#fff', 'auto'
-                    );
-                    setTimeout(() => { btn.innerHTML = originalHTML;
-                        btn.style.removeProperty('background');
-                        btn.style.removeProperty('color');
-                        btn.style.removeProperty('pointer-events');
-                        btn.style.removeProperty('opacity');
-                        isSubmitting = false; }, 3000);
+                    setQFState(btn, '<span>Failed — please try again</span>', 'error');
+                    resetBtn(3000);
                 }
             } catch {
-                setQFState(btn,
-                    '<span>Connection error — try WhatsApp or email</span>',
-                    'rgba(255,255,255,0.08)', 'var(--ink)', 'auto'
-                );
-                setTimeout(() => { btn.innerHTML = originalHTML;
-                        btn.style.removeProperty('background');
-                        btn.style.removeProperty('color');
-                        btn.style.removeProperty('pointer-events');
-                        btn.style.removeProperty('opacity');
-                        isSubmitting = false; }, 3500);
+                setQFState(btn, '<span>Connection error — try WhatsApp or email</span>', 'offline');
+                resetBtn(3500);
             }
         });
 
@@ -338,7 +309,7 @@
                         if (tgt) { e.preventDefault(); lenisRef.scrollTo(tgt, { offset: -80, duration: 1.5 }); }
                     });
                 });
-            } catch { lenisRef = null; }
+            } catch (err) { console.warn('[Lenis] init failed, falling back to native scroll:', err); lenisRef = null; }
         }
 
         // ── Fallback scroll ───────────────────────────────────
@@ -472,8 +443,7 @@
         const getCursorState = (el) => {
             if (!el) return null;
             let node = el;
-            for (let i = 0; i < 4; i++) {
-                if (!node || node === document.body) break;
+            while (node && node !== document.body) {
                 if (node.dataset?.cursor)          return { type: 'hover',  label: node.dataset.cursor };
                 if (node.matches?.('input, textarea, select'))
                                                     return { type: 'text',   label: '' };

@@ -4,11 +4,11 @@
  *
  * ARCHITECTURE:
  * ─────────────────────────────────────────────────────────────
- * This file must be loaded as a NON-DEFERRED <script> in <head>,
- * BEFORE the closing </head> tag and before main.css applies.
- * It runs synchronously on DOM parse — guaranteeing the .mw
- * spans exist before the first paint, so no FOUC (flash of
- * unstyled content) occurs.
+ * Loaded as a NON-DEFERRED <script> in <head>. The script registers
+ * a DOMContentLoaded listener (or runs immediately if the DOM is
+ * already ready) so word-split and WebGL init execute as early as
+ * possible — before the first visible paint — preventing FOUC on
+ * the hero heading.
  *
  * The mwIn animation is defined in main.css. This script only
  * splits the text nodes and sets CSS custom property --i for stagger.
@@ -101,7 +101,6 @@
                     var span = document.createElement('span');
                     span.className = 'mw';
                     span.style.setProperty('--i', wordIndex);
-                    span.setAttribute('aria-hidden', 'false'); // accessible
                     span.textContent = part;
                     fragment.appendChild(span);
                     wordIndex++;
@@ -356,4 +355,109 @@
         init();
     }
 
+})();
+
+// ── Neon Motion Lines — CTA section background ──────────────────
+(function () {
+    'use strict';
+    const initNeonTubes = () => {
+        const section = document.getElementById('contact');
+        const isMobile = window.innerWidth < 768;
+        if (!section || isMobile) return;
+
+        const canvas = document.createElement('canvas');
+        canvas.className = 'neon-tubes-canvas';
+        canvas.setAttribute('aria-hidden', 'true');
+        section.insertBefore(canvas, section.firstChild);
+
+        const ctx = canvas.getContext('2d');
+        let W = 0, H = 0, raf = null, running = false;
+        let mouseX = -999, mouseY = -999, t = 0;
+
+        const resize = () => {
+            W = canvas.width  = section.offsetWidth;
+            H = canvas.height = section.offsetHeight;
+        };
+
+        const TUBES = [
+            { ny:.18, speed:.28, amp:.10, freq:3.2, phase:0.00, color:'#FFC63E', w:1.2, op:.55 },
+            { ny:.36, speed:.42, amp:.13, freq:2.8, phase:1.05, color:'#FF9500', w:0.9, op:.40 },
+            { ny:.50, speed:.35, amp:.08, freq:4.1, phase:2.09, color:'#FFD966', w:1.5, op:.65 },
+            { ny:.65, speed:.50, amp:.12, freq:3.5, phase:3.14, color:'#FFC63E', w:0.8, op:.35 },
+            { ny:.78, speed:.31, amp:.09, freq:2.5, phase:4.19, color:'#FF7A00', w:1.1, op:.45 },
+            { ny:.90, speed:.46, amp:.11, freq:3.8, phase:5.24, color:'#FFD966', w:0.7, op:.30 },
+        ];
+
+        const draw = () => {
+            ctx.clearRect(0, 0, W, H);
+            t += 0.006;
+            TUBES.forEach(tube => {
+                const pts = [], step = 12;
+                for (let x = -step; x <= W + step; x += step) {
+                    let y = H * tube.ny
+                        + Math.sin(x / W * Math.PI * tube.freq + t * tube.speed + tube.phase) * H * tube.amp
+                        + Math.sin(x / W * Math.PI * tube.freq * 1.7 - t * tube.speed * 0.6 + tube.phase * 0.5) * H * tube.amp * 0.3;
+                    if (mouseX > 0) {
+                        const mDist   = Math.abs(x - mouseX) / W;
+                        const attract = Math.max(0, 1 - mDist * 2.5);
+                        y += (mouseY - H * tube.ny) * 0.12 * attract;
+                    }
+                    pts.push({ x, y });
+                }
+                const passes = [
+                    { lw: tube.w + 18, alpha: tube.op * 0.06, blur: 40 },
+                    { lw: tube.w + 5,  alpha: tube.op * 0.18, blur: 16 },
+                    { lw: tube.w,      alpha: tube.op * 0.85, blur: 5  },
+                ];
+                passes.forEach(({ lw, alpha, blur }) => {
+                    ctx.beginPath();
+                    ctx.moveTo(pts[0].x, pts[0].y);
+                    for (let i = 1; i < pts.length - 2; i++) {
+                        const mx = (pts[i].x + pts[i+1].x) / 2;
+                        const my = (pts[i].y + pts[i+1].y) / 2;
+                        ctx.quadraticCurveTo(pts[i].x, pts[i].y, mx, my);
+                    }
+                    ctx.strokeStyle = tube.color; ctx.lineWidth = lw;
+                    ctx.globalAlpha = alpha; ctx.shadowBlur  = blur;
+                    ctx.shadowColor = tube.color; ctx.lineCap = 'round';
+                    ctx.stroke();
+                });
+            });
+            ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+        };
+
+        const loop = () => { if (!running) return; draw(); raf = requestAnimationFrame(loop); };
+
+        const io = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                if (!running) { running = true; resize(); loop(); }
+            } else {
+                running = false; if (raf) cancelAnimationFrame(raf);
+            }
+        }, { threshold: 0.05 });
+
+        io.observe(section);
+        section.addEventListener('mousemove', e => {
+            const rect = section.getBoundingClientRect();
+            mouseX = e.clientX - rect.left; mouseY = e.clientY - rect.top;
+        }, { passive: true });
+        section.addEventListener('mouseleave', () => { mouseX = -999; mouseY = -999; }, { passive: true });
+        window.addEventListener('resize', () => { if (running) resize(); }, { passive: true });
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                running = false; if (raf) cancelAnimationFrame(raf);
+            } else {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) { running = true; loop(); }
+            }
+        });
+
+        resize();
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initNeonTubes, { once: true });
+    } else {
+        initNeonTubes();
+    }
 })();

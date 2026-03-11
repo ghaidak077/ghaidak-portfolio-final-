@@ -3,6 +3,7 @@
 ════════════════════════════════════════════════════════════ */
 @font-face { font-family:'Syne'; src:url('fonts/Syne-Regular.woff2')   format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
 @font-face { font-family:'Syne'; src:url('fonts/Syne-Bold.woff2')      format('woff2'); font-weight:700; font-style:normal; font-display:swap; }
+@font-face { font-family:'Syne'; src:url('fonts/Syne-ExtraBold.woff2') format('woff2'); font-weight:800; font-style:normal; font-display:swap; }
 
 /* ════════════════════════════════════════════════════════════
    LOADER
@@ -57,7 +58,6 @@
 .footer-logo-link { display:inline-flex; align-items:center; opacity:0.6; transition:opacity .2s; }
 .footer-logo-link:hover { opacity:1; }
 .footer-logo { display:block; height:16px; width:auto; }
-@font-face { font-family:'Syne'; src:url('fonts/Syne-ExtraBold.woff2') format('woff2'); font-weight:800; font-style:normal; font-display:swap; }
 
 /* ════════════════════════════════════════════════════════════
    CSS CUSTOM PROPERTY REGISTRATION
@@ -186,7 +186,7 @@ body { cursor:auto; }
 }
 .cursor--hover  { width:88px; height:32px; background:var(--accent); box-shadow:0 0 32px rgba(255,198,62,0.4), 0 6px 24px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.3); }
 .cursor--text   { width:2px; height:24px; border-radius:2px; background:var(--accent); box-shadow:0 0 8px rgba(255,198,62,0.5); }
-.cursor--invert { width:52px; height:52px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.18); box-shadow:none; backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); }
+.cursor--invert { width:52px; height:52px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); box-shadow:none; }
 .cursor--hidden { opacity:0; }
 
 .cursor-label {
@@ -525,13 +525,13 @@ html:not(.no-js) .reveal-up:not(.reveal-ready) {
     will-change: auto;
 }
 @keyframes heroRevealUp {
-    from { opacity:0; transform:translateY(40px); }
+    from { opacity:1; transform:translateY(40px); }
     to   { opacity:1; transform:none; }
 }
 html:not(.no-js) .hero-section .hero-top {
-    opacity:0; transform:translateY(40px);
-    animation:heroRevealUp 1.3s var(--ease-cinema) both;
-    animation-delay:0.08s;
+    opacity:1; transform:translateY(40px);
+    animation:heroRevealUp 0.9s var(--ease-cinema) both;
+    animation-delay:0s;
 }
 html:not(.no-js) .hero-section .hero-bottom {
     /* Static — hero headline animation is enough */
@@ -974,8 +974,7 @@ html:not(.no-js) .hero-section .reveal-up.gsap-animated { animation:none; }
 .wa-float {
     position:fixed; bottom:2rem; right:2rem; z-index:500;
     display:inline-flex; align-items:center; gap:.55rem;
-    background:linear-gradient(160deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.04) 50%, rgba(37,211,102,0.12) 100%);
-    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    background:rgba(12,16,14,0.92);
     border:1px solid rgba(37,211,102,0.25); border-radius:100px; padding:0 1.25rem; height:48px;
     color:var(--ink); font-family:var(--font-b); font-size:.6rem; font-weight:700;
     letter-spacing:.1em; text-transform:uppercase; text-decoration:none;
@@ -1227,7 +1226,7 @@ html:not(.no-js) .hero-section .reveal-up.gsap-animated { animation:none; }
 
     .wa-float {
         bottom:1.5rem; right:var(--pad-x); height:44px; padding:0 1rem; font-size:0.57rem;
-        backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); background:rgba(4,4,6,0.90);
+        background:rgba(8,12,10,0.95);
         border-color:rgba(37,211,102,0.28);
     }
     .wa-float:hover { transform:none; }
@@ -1695,6 +1694,10 @@ html:not(.no-js) .hero-section .reveal-up.gsap-animated { animation:none; }
     filter:brightness(1.05);
 }
 .qf-submit:active { transform:translateY(0); }
+.qf-submit[data-qf-state="sending"] { background:linear-gradient(160deg,#FFD966,#FFC63E); color:#000; opacity:.75; pointer-events:none; }
+.qf-submit[data-qf-state="success"] { background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff; pointer-events:none; }
+.qf-submit[data-qf-state="error"]   { background:linear-gradient(135deg,#dc2626,#b91c1c); color:#fff; }
+.qf-submit[data-qf-state="offline"] { background:rgba(255,255,255,0.07); color:var(--ink); }
 .qf-input.qf-error { border-color:rgba(220,38,38,0.55) !important; }
 
 /* ── Pricing anchor note ── */
@@ -1759,3 +1762,49 @@ html:not(.no-js) .hero-section .reveal-up.gsap-animated { animation:none; }
     border-top:1px solid rgba(255,255,255,0.05);
 }
 
+
+/* ── Logo Slider ─────────────────────────────────────────────── */
+.partner-section {
+    position:relative; width:100%; overflow:hidden;
+    border-top:1px solid var(--glass-border); border-bottom:1px solid var(--glass-border);
+    background:rgba(0,0,0,.4);
+    padding:clamp(1.5rem, 2.5vw, 2rem) 0;
+    display:flex; flex-direction:column; align-items:center; gap:1.5rem;
+    transform:translateZ(0);
+}
+.partner-label { font-family:var(--font-b); font-size:.58rem; font-weight:700; color:var(--muted); letter-spacing:.22em; text-transform:uppercase; padding:0 var(--pad-x); text-align:center; }
+.marquee-track {
+    width:100%; display:flex; overflow:hidden;
+    mask-image:linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 6%, black 16%, black 84%, rgba(0,0,0,0.4) 94%, transparent 100%);
+    -webkit-mask-image:linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 6%, black 16%, black 84%, rgba(0,0,0,0.4) 94%, transparent 100%);
+}
+.logos-content {
+    display:flex; align-items:center; gap:5rem; padding-right:5rem;
+    animation:pureMarquee 28s linear infinite; flex-shrink:0;
+}
+.logos-content img {
+    height:34px; width:auto;
+    filter:grayscale(100%) opacity(0.5) brightness(2);
+    transition:filter .5s, transform .4s; object-fit:contain; flex-shrink:0;
+}
+.logos-content img:hover { filter:grayscale(0%) opacity(1) brightness(1); transform:scale(1.08); }
+@keyframes pureMarquee { to { transform:translateX(-50%); } }
+.blur-edge { position:absolute; top:0; bottom:0; width:clamp(60px,15vw,220px); z-index:6; pointer-events:none; }
+.blur-edge--left  { left:0; background:linear-gradient(to right, #040404 0%, rgba(4,4,4,0.97) 15%, rgba(4,4,4,0.88) 30%, rgba(4,4,4,0.70) 48%, rgba(4,4,4,0.40) 65%, rgba(4,4,4,0.15) 80%, transparent 100%); }
+.blur-edge--right { right:0; background:linear-gradient(to left,  #040404 0%, rgba(4,4,4,0.97) 15%, rgba(4,4,4,0.88) 30%, rgba(4,4,4,0.70) 48%, rgba(4,4,4,0.40) 65%, rgba(4,4,4,0.15) 80%, transparent 100%); }
+@media (max-width:768px) {
+    .partner-section { padding:1.4rem 0; }
+    .partner-label   { font-size:0.51rem; }
+    .logos-content img { height:24px; }
+    .logos-content { gap:3rem; }
+}
+
+/* ── Neon Motion Lines — CTA background ─────────────────────── */
+.contact-end { position:relative; }
+.neon-tubes-canvas {
+    position:absolute; inset:0; width:100%; height:100%;
+    pointer-events:none; z-index:0; opacity:.38; mix-blend-mode:screen;
+    mask-image:radial-gradient(ellipse 90% 65% at 50% 10%, black 20%, rgba(0,0,0,0.55) 50%, transparent 80%);
+    -webkit-mask-image:radial-gradient(ellipse 90% 65% at 50% 10%, black 20%, rgba(0,0,0,0.55) 50%, transparent 80%);
+}
+@media (max-width:768px) { .neon-tubes-canvas { display:none; } }
