@@ -1779,8 +1779,9 @@ html:not(.no-js) .hero-section .reveal-up.gsap-animated { animation:none; }
     -webkit-mask-image:linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 6%, black 16%, black 84%, rgba(0,0,0,0.4) 94%, transparent 100%);
 }
 .logos-content {
-    display:flex; align-items:center; gap:5rem; padding-right:5rem;
+    display:flex; align-items:center; gap:5rem;
     animation:pureMarquee 28s linear infinite; flex-shrink:0;
+    will-change:transform;
 }
 .logos-content img {
     height:34px; width:auto;
